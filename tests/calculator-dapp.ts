@@ -55,5 +55,15 @@ describe('calculatordapp', () => {
         })
         const account = await program.account.calculator.fetch(calculator.publicKey)
         assert.ok(account.result.eq(new anchor.BN(3)))
+        assert.ok(account.remainder.eq(new anchor.BN(0)))
+    })
+    it('Saves the remainder of a division', async() => {
+        await program.rpc.division(new anchor.BN(18), new anchor.BN(4), {
+            accounts: {
+                calculator: calculator.publicKey
+            }
+        })
+        const account = await program.account.calculator.fetch(calculator.publicKey)
+        assert.ok(account.remainder.eq(new anchor.BN(2)))
     })
 })
